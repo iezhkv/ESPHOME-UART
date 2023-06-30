@@ -50,9 +50,9 @@ sensor:
     return {my_sensor->temperature_sensor, my_sensor->humidity_sensor};
 
   sensors:
-  - name: "My Custom Temperature Sensor"
+  - name: "Remote Temperature Sensor"
     unit_of_measurement: °C
     accuracy_decimals: 1
-  - name: "My Custom Pressure Sensor"
-    unit_of_measurement: hPa
+  - name: "Remote Humidity Sensor"
+    unit_of_measurement: "%"
     accuracy_decimals: 2

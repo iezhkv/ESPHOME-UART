@@ -53,10 +53,13 @@ sensor:
       id: "bathroom_temperature_sensor"
       on_value:
         then:
-          uart.write: "42"
+          - uart.write: !lambda int cm = id(bathroom_temperature_sensor).state;
+              std::string cms = to_string(cm);
+              return std::vector<unsigned char>(cms.begin(), cms.end());
     update_interval: 5s
 
+
     
-    
+
 
 

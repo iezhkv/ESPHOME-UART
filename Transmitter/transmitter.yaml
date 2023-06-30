@@ -51,15 +51,31 @@ sensor:
     temperature:
       name: "Living Room Temperature"
       id: "bathroom_temperature_sensor"
-      on_value:
+    humidity:
+      name: "Hum"
+      id: "bathroom_humidity_sensor"
+     
+    update_interval: 5s
+
+
+
+text_sensor:
+  - platform: template
+    name: "Template Text Sensor"
+    id: "group_sensor"
+    lambda: |-
+      double tempD = id(bathroom_temperature_sensor).state;
+      std::string temp = to_string(tempD);
+      double humD = id(bathroom_humidity_sensor).state;
+      std::string hum = to_string(humD);
+      return "Temperature: " + temp + ", Humidity: " + hum;
+    on_value:
         then:
-          - uart.write: !lambda int cm = id(bathroom_temperature_sensor).state;
-              std::string cms = to_string(cm);
+          - uart.write: !lambda 
+              std::string cms = to_string(id(group_sensor).state);
               return std::vector<unsigned char>(cms.begin(), cms.end());
     update_interval: 5s
 
 
     
-
-
 

@@ -1,25 +1,28 @@
-#include "esphome.h"
-
-class MyCustomSensor : public Component, public Sensor {
+class MyCustomSensor : public PollingComponent {
  public:
+
+  Sensor *temperature_sensor = new Sensor();
+  Sensor *humidity_sensor = new Sensor();
+
+  MyCustomSensor() : PollingComponent(5000) { }
+
   void setup() override {
-    // This will be called by App.setup()
-    // Set up the serial port
-    Serial.begin(115200);
   }
+    float temperature = -300.00;
+    float humidity = -300.00;
 
-  void loop() override {
-    // This will be called by App.loop()
-    if (Serial.available() > 0) {
-      // Read the incoming string
+void loop() override {
+  if (Serial.available() > 0) {
       String valueString = Serial.readStringUntil('\n');
-      valueString.trim();  // Remove leading/trailing whitespace
+      valueString.trim(); 
 
-      // Parse the string as an integer
-      int value = valueString.toInt();
-
-      // Publish the value as a sensor reading
-      publish_state(value);
+      sscanf(valueString.c_str(), "Temperature: %f, Humidity: %f", &temperature, &humidity);
     }
+}
+
+  void update() override {
+
+    temperature_sensor->publish_state(temperature);
+    humidity_sensor->publish_state(humidity);
   }
 };

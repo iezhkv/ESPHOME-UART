@@ -47,7 +47,12 @@ sensor:
   lambda: |-
     auto my_sensor = new MyCustomSensor();
     App.register_component(my_sensor);
-    return {my_sensor};
+    return {my_sensor->temperature_sensor, my_sensor->humidity_sensor};
 
   sensors:
-    name: "My Custom Sensor"
+  - name: "My Custom Temperature Sensor"
+    unit_of_measurement: °C
+    accuracy_decimals: 1
+  - name: "My Custom Pressure Sensor"
+    unit_of_measurement: hPa
+    accuracy_decimals: 2

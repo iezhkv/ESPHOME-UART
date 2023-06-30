@@ -1,0 +1,53 @@
+esphome:
+  name: reciever
+  friendly_name: Reciever
+  includes:
+    - uart_read_line_sensor.h
+  
+
+esp32:
+  board: esp32dev
+  framework:
+    type: arduino
+
+# Enable logging
+logger:
+  level: VERBOSE #makes uart stream available in esphome logstream
+  baud_rate: 0 #disable logging over uart
+
+# Enable Home Assistant API
+api:
+  encryption:
+    key: "ggmd/3EiwlHb9XvAaRpfh9ezjSrdhX2919FfNqj3cv0="
+
+ota:
+  password: "e9cf93c1bba4a0a956215047a29f826a"
+
+wifi:
+  ssid: Bozhe Ime
+  password: "0897923140"
+
+  # Enable fallback hotspot (captive portal) in case wifi connection fails
+  ap:
+    ssid: "Reciever Fallback Hotspot"
+    password: "wMiGcDqeYQKt"
+
+captive_portal:
+    
+
+uart:
+  id: uart_bus
+  tx_pin: 1
+  rx_pin: 3
+  baud_rate: 115200
+
+
+sensor:
+- platform: custom
+  lambda: |-
+    auto my_sensor = new MyCustomSensor();
+    App.register_component(my_sensor);
+    return {my_sensor};
+
+  sensors:
+    name: "My Custom Sensor"

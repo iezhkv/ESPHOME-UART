@@ -1,0 +1,62 @@
+esphome:
+  name: transmitter
+  friendly_name: Transmitter
+
+esp32:
+  board: esp32dev
+  framework:
+    type: arduino
+
+# Enable logging
+logger:
+
+# Enable Home Assistant API
+api:
+  encryption:
+    key: "r6ZrzXpNGSbHE8OOli2J4BNwwmFFTR+3iMuMrtsotiY="
+
+ota:
+  password: "4c15f16fd8cf8fb72436ab051eeefd73"
+
+wifi:
+  ssid: Bozhe Ime
+  password: "0897923140"
+
+  # Enable fallback hotspot (captive portal) in case wifi connection fails
+  ap:
+    ssid: "Reciever Fallback Hotspot"
+    password: "wMiGcDqeYQKt"
+
+captive_portal:
+    
+
+uart:
+  tx_pin: 1
+  rx_pin: 3
+  baud_rate: 115200
+  debug:
+    direction: BOTH
+    dummy_receiver: false
+    after:
+      delimiter: "\n"
+    sequence:
+      - lambda: UARTDebug::log_string(direction, bytes);
+  
+
+ 
+
+sensor:
+  - platform: dht
+    pin: 5
+    temperature:
+      name: "Living Room Temperature"
+      id: "bathroom_temperature_sensor"
+      on_value:
+        then:
+          uart.write: "42"
+    update_interval: 5s
+
+    
+    
+
+

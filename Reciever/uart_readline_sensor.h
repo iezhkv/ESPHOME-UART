@@ -10,6 +10,8 @@ class MyCustomSensor : public PollingComponent {
   }
     float temperature = -300.00;
     float humidity = -300.00;
+    float prevTemp = temperature;
+    float prevHum = humidity;
 
 void loop() override {
   if (Serial.available() > 0) {
@@ -21,8 +23,15 @@ void loop() override {
 }
 
   void update() override {
+    
+    if (temperature != prevTemp) {
+      temperature_sensor->publish_state(temperature);
+    }
+    if (humidity != prevHum) {
+      humidity_sensor->publish_state(humidity);
+    }
 
-    temperature_sensor->publish_state(temperature);
-    humidity_sensor->publish_state(humidity);
+    prevTemp = temperature;
+    prevHum = humidity;
   }
 };
